@@ -11,12 +11,11 @@ public class SectionTrigger : MonoBehaviour
         {
             spawned = true;
 
-            Instantiate(
-                roadSection,
+            ObjectPool.Instance.Spawn(
+                roadSection.name,
                 transform.parent.position + new Vector3(10f, 0, 0),
                 Quaternion.identity
             );
         }
     }
-} 
- 
+}

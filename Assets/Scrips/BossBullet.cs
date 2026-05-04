@@ -5,9 +5,10 @@ public class BossBullet : MonoBehaviour
     public float speed = 8f;
     private Vector2 direction;
 
-    void Start()
+    void OnEnable()
     {
-        Destroy(gameObject, 5f); // 👈 ตรงนี้
+        CancelInvoke();
+        Invoke(nameof(Disable), 5f);
     }
 
     public void SetTarget(Transform target)
@@ -22,13 +23,17 @@ public class BossBullet : MonoBehaviour
     {
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
     }
+
+    void Disable()
+    {
+        gameObject.SetActive(false);
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            // TODO: ทำดาเมจ player (ถ้ามีระบบเลือด)
-
-            Destroy(gameObject); // 👈 กระสุนหาย
+            Disable();
         }
     }
 }

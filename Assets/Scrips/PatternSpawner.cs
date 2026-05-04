@@ -56,22 +56,23 @@ public class PatternSpawner : MonoBehaviour
         return hard[Random.Range(0, hard.Length)];
     }
 
-    // ================= SPAWN =================
     IEnumerator SpawnPattern(PatternData pattern, float distance)
     {
         foreach (var rule in pattern.spawnRules)
         {
-            // 🎯 Chance
             if (Random.value > rule.spawnChance)
                 continue;
 
             Transform spawnPoint = GetSpawnPoint(rule, pattern.spawnPoints);
-
             if (spawnPoint == null) continue;
 
             Vector2 pos = spawnPoint.position;
 
-            GameObject obj = Instantiate(rule.prefab, pos, Quaternion.identity);
+            GameObject obj = ObjectPool.Instance.Spawn(
+                rule.prefab.name,
+                pos,
+                Quaternion.identity
+            );
 
             Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
 
@@ -85,7 +86,6 @@ public class PatternSpawner : MonoBehaviour
         }
     }
 
-    // ================= SELECT SPAWN =================
     Transform GetSpawnPoint(SpawnRule rule, Transform[] defaultPoints)
     {
         if (defaultPoints == null || defaultPoints.Length == 0)
@@ -111,7 +111,6 @@ public class PatternSpawner : MonoBehaviour
         return defaultPoints[0];
     }
 
-    // ================= BOSS =================
     void SpawnBoss()
     {
         bossSpawned = true;
@@ -123,7 +122,6 @@ public class PatternSpawner : MonoBehaviour
         StartCoroutine(ItemLoop());
     }
 
-    // ================= ITEM =================
     IEnumerator ItemLoop()
     {
         while (true)
@@ -145,7 +143,11 @@ public class PatternSpawner : MonoBehaviour
 
         Vector2 pos = point.position;
 
-        GameObject obj = Instantiate(itemPrefab, pos, Quaternion.identity);
+        GameObject obj = ObjectPool.Instance.Spawn(
+            itemPrefab.name,
+            pos,
+            Quaternion.identity
+        );
 
         Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
 
