@@ -11,7 +11,8 @@ public class PatternSpawner : MonoBehaviour
     [Header("Boss")]
     public GameObject bossPrefab;
     public float bossDistance = 300f;
-    public Vector2 bossSpawnPosition = new Vector2(10f, 0f);
+    public Vector2 bossSpawnPosition =
+        new Vector2(10f, 0f);
 
     [Header("Item")]
     public GameObject itemPrefab;
@@ -29,17 +30,26 @@ public class PatternSpawner : MonoBehaviour
     {
         while (true)
         {
-            float distance = GameManager.Instance.distance;
+            float distance =
+                GameManager.Instance.distance;
 
-            if (!bossSpawned && distance >= bossDistance)
+            if (!bossSpawned &&
+                distance >= bossDistance)
             {
                 SpawnBoss();
+
                 yield break;
             }
 
-            PatternData pattern = GetPattern(distance);
+            PatternData pattern =
+                GetPattern(distance);
 
-            yield return StartCoroutine(SpawnPattern(pattern, distance));
+            yield return StartCoroutine(
+                SpawnPattern(
+                    pattern,
+                    distance
+                )
+            );
 
             yield return new WaitForSeconds(1f);
         }
@@ -48,63 +58,116 @@ public class PatternSpawner : MonoBehaviour
     PatternData GetPattern(float distance)
     {
         if (distance < 100f)
-            return easy[Random.Range(0, easy.Length)];
+        {
+            return easy[
+                Random.Range(0, easy.Length)
+            ];
+        }
 
         if (distance < 200f)
-            return medium[Random.Range(0, medium.Length)];
+        {
+            return medium[
+                Random.Range(0, medium.Length)
+            ];
+        }
 
-        return hard[Random.Range(0, hard.Length)];
+        return hard[
+            Random.Range(0, hard.Length)
+        ];
     }
 
-    IEnumerator SpawnPattern(PatternData pattern, float distance)
+    IEnumerator SpawnPattern(
+        PatternData pattern,
+        float distance
+    )
     {
         foreach (var rule in pattern.spawnRules)
         {
             if (Random.value > rule.spawnChance)
                 continue;
 
-            Transform spawnPoint = GetSpawnPoint(rule, pattern.spawnPoints);
-            if (spawnPoint == null) continue;
+            Transform spawnPoint =
+                GetSpawnPoint(
+                    rule,
+                    pattern.spawnPoints
+                );
 
-            Vector2 pos = spawnPoint.position;
+            if (spawnPoint == null)
+                continue;
 
-            GameObject obj = ObjectPool.Instance.Spawn(
-                rule.prefab.name,
-                pos,
-                Quaternion.identity
-            );
+            Vector2 pos =
+                spawnPoint.position;
 
-            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+            GameObject obj =
+                ObjectPool.Instance.Spawn(
+                    rule.prefab,
+                    pos,
+                    Quaternion.identity
+                );
+
+            Rigidbody2D rb =
+                obj.GetComponent<Rigidbody2D>();
 
             if (rb != null)
             {
-                float speed = 3f + distance * 0.05f;
-                rb.velocity = Vector2.left * speed;
+                float speed =
+                    3f + distance * 0.05f;
+
+                rb.linearVelocity =
+                    Vector2.left * speed;
             }
 
-            yield return new WaitForSeconds(pattern.delay);
+            yield return new WaitForSeconds(
+                pattern.delay
+            );
         }
     }
 
-    Transform GetSpawnPoint(SpawnRule rule, Transform[] defaultPoints)
+    Transform GetSpawnPoint(
+        SpawnRule rule,
+        Transform[] defaultPoints
+    )
     {
-        if (defaultPoints == null || defaultPoints.Length == 0)
+        if (defaultPoints == null ||
+            defaultPoints.Length == 0)
+        {
             return null;
+        }
 
         switch (rule.mode)
         {
             case SpawnMode.RandomAll:
-                return defaultPoints[Random.Range(0, defaultPoints.Length)];
+
+                return defaultPoints[
+                    Random.Range(
+                        0,
+                        defaultPoints.Length
+                    )
+                ];
 
             case SpawnMode.Fixed:
-                int index = Mathf.Clamp(rule.fixedIndex, 0, defaultPoints.Length - 1);
+
+                int index = Mathf.Clamp(
+                    rule.fixedIndex,
+                    0,
+                    defaultPoints.Length - 1
+                );
+
                 return defaultPoints[index];
 
             case SpawnMode.CustomSet:
-                if (rule.customPoints != null && rule.customPoints.Length > 0)
+
+                if (rule.customPoints != null &&
+                    rule.customPoints.Length > 0)
                 {
-                    return rule.customPoints[Random.Range(0, rule.customPoints.Length)];
+                    return rule.customPoints[
+                        Random.Range(
+                            0,
+                            rule.customPoints.Length
+                        )
+                    ];
                 }
+
                 break;
         }
 
@@ -115,7 +178,11 @@ public class PatternSpawner : MonoBehaviour
     {
         bossSpawned = true;
 
-        Instantiate(bossPrefab, bossSpawnPosition, Quaternion.identity);
+        ObjectPool.Instance.Spawn(
+            bossPrefab,
+            bossSpawnPosition,
+            Quaternion.identity
+        );
 
         GameManager.Instance.EnterBossPhase();
 
@@ -126,34 +193,52 @@ public class PatternSpawner : MonoBehaviour
     {
         while (true)
         {
-            if (Boss.Instance == null || Boss.Instance.IsDead())
+            if (Boss.Instance == null ||
+                Boss.Instance.IsDead())
+            {
                 yield break;
+            }
 
             SpawnItem();
 
-            yield return new WaitForSeconds(itemDelay);
+            yield return new WaitForSeconds(
+                itemDelay
+            );
         }
     }
 
     void SpawnItem()
     {
-        if (itemSpawnPoints == null || itemSpawnPoints.Length == 0) return;
+        if (itemSpawnPoints == null ||
+            itemSpawnPoints.Length == 0)
+        {
+            return;
+        }
 
-        Transform point = itemSpawnPoints[Random.Range(0, itemSpawnPoints.Length)];
+        Transform point =
+            itemSpawnPoints[
+                Random.Range(
+                    0,
+                    itemSpawnPoints.Length
+                )
+            ];
 
         Vector2 pos = point.position;
 
-        GameObject obj = ObjectPool.Instance.Spawn(
-            itemPrefab.name,
-            pos,
-            Quaternion.identity
-        );
+        GameObject obj =
+            ObjectPool.Instance.Spawn(
+                itemPrefab,
+                pos,
+                Quaternion.identity
+            );
 
-        Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb =
+            obj.GetComponent<Rigidbody2D>();
 
         if (rb != null)
         {
-            rb.velocity = Vector2.left * 5f;
+            rb.linearVelocity =
+                Vector2.left * 5f;
         }
     }
 }

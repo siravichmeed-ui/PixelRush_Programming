@@ -10,71 +10,70 @@ public class GameManager : MonoBehaviour
 
     [Header("Speed")]
     public float speed = 5f;
+
     public float speedIncreaseRate = 0.02f;
 
     [Header("State")]
     public bool isGameRunning = true;
+
     public bool isBossPhase = false;
 
     void Awake()
     {
-        Time.timeScale = 1f;
-
+        // ================= SINGLETON =================
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+
+            return;
         }
-    }
 
-    // 🔥 เพิ่มอันนี้ (สำคัญมาก)
-    void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        ResetGame(); // 👈 รีเซ็ตทุกครั้งหลังโหลด
+        ResetGame();
     }
 
     void Update()
     {
-        if (!isGameRunning) return;
+        if (!isGameRunning)
+            return;
 
-        distance += speed * Time.deltaTime;
-        speed += speedIncreaseRate * Time.deltaTime;
+        distance +=
+            speed * Time.deltaTime;
+
+        speed +=
+            speedIncreaseRate *
+            Time.deltaTime;
     }
 
     // ================= CONTROL =================
     public void StopGame()
     {
         isGameRunning = false;
+
         Time.timeScale = 0f;
     }
 
     public void ResumeGame()
     {
         isGameRunning = true;
+
         Time.timeScale = 1f;
     }
 
+    // ================= RESET =================
     public void ResetGame()
     {
         distance = 0f;
+
         speed = 5f;
+
         speedIncreaseRate = 0.02f;
 
         isBossPhase = false;
+
         isGameRunning = true;
 
         Time.timeScale = 1f;
@@ -84,12 +83,14 @@ public class GameManager : MonoBehaviour
     public void EnterBossPhase()
     {
         isBossPhase = true;
+
         speedIncreaseRate = 0f;
     }
 
     public void BossDefeated()
     {
         Debug.Log("Boss Cleared!");
+
         StopGame();
     }
 
@@ -97,6 +98,17 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

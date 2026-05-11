@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Boss : MonoBehaviour
 {
@@ -38,10 +39,16 @@ public class Boss : MonoBehaviour
     private bool isArmOut = false;
     private bool isDead = false;
 
-    // ================= INIT =================
     void Awake()
     {
         Instance = this;
+    }
+    void OnDisable()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     void Start()
@@ -50,10 +57,10 @@ public class Boss : MonoBehaviour
         FindPlayer();
     }
 
-    // ================= UPDATE =================
     void Update()
     {
-        if (isDead) return;
+        if (isDead)
+            return;
 
         if (player == null)
         {
@@ -62,6 +69,7 @@ public class Boss : MonoBehaviour
         }
 
         HandleAttack();
+
         UpdatePhase();
     }
 
@@ -70,38 +78,52 @@ public class Boss : MonoBehaviour
         AimShootPos();
     }
 
-    // ================= FIND PLAYER =================
     void FindPlayer()
     {
-        GameObject obj = GameObject.FindGameObjectWithTag("Player");
-        if (obj != null) player = obj.transform;
+        GameObject obj =
+            GameObject.FindGameObjectWithTag("Player");
+
+        if (obj != null)
+        {
+            player = obj.transform;
+        }
     }
 
-    // ================= AIM =================
     void AimShootPos()
     {
-        if (isArmOut || shootPos == null || player == null) return;
+        if (isArmOut || shootPos == null || player == null)
+            return;
 
-        Vector2 dir = player.position - shootPos.position;
+        Vector2 dir =
+            player.position - shootPos.position;
 
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle =
+            Mathf.Atan2(dir.y, dir.x)
+            * Mathf.Rad2Deg;
 
         angle += angleOffset;
-        angle = Mathf.Clamp(angle, minAngle, maxAngle);
 
-        Quaternion targetRot = Quaternion.Euler(0, 0, angle);
-
-        shootPos.localRotation = Quaternion.Lerp(
-            shootPos.localRotation,
-            targetRot,
-            Time.deltaTime * rotateSpeed
+        angle = Mathf.Clamp(
+            angle,
+            minAngle,
+            maxAngle
         );
+
+        Quaternion targetRot =
+            Quaternion.Euler(0, 0, angle);
+
+        shootPos.localRotation =
+            Quaternion.Lerp(
+                shootPos.localRotation,
+                targetRot,
+                Time.deltaTime * rotateSpeed
+            );
     }
 
-    // ================= ATTACK =================
     void HandleAttack()
     {
-        if (isArmOut) return;
+        if (isArmOut)
+            return;
 
         attackTimer += Time.deltaTime;
 
@@ -110,23 +132,33 @@ public class Boss : MonoBehaviour
             attackTimer = 0f;
 
             if (armAnim != null)
+            {
                 armAnim.SetTrigger("attack");
+            }
         }
     }
 
-    // 👉 Animation Event เรียกตัวนี้
     public void ShootArm()
     {
-        if (isArmOut || shootPos == null || armPrefab == null) return;
+        if (isArmOut || shootPos == null || armPrefab == null)
+            return;
 
         isArmOut = true;
 
         if (armObject != null)
+        {
             armObject.SetActive(false);
+        }
 
-        GameObject armObj = Instantiate(armPrefab, shootPos.position, Quaternion.identity);
+        GameObject armObj =
+            ObjectPool.Instance.Spawn(
+                armPrefab,
+                shootPos.position,
+                Quaternion.identity
+            );
 
-        ArmProjectile proj = armObj.GetComponent<ArmProjectile>();
+        ArmProjectile proj =
+            armObj.GetComponent<ArmProjectile>();
 
         if (proj != null)
         {
@@ -134,19 +166,20 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // 👉 เรียกจาก projectile ตอนกลับ
     public void ReturnArm()
     {
         isArmOut = false;
 
         if (armObject != null)
+        {
             armObject.SetActive(true);
+        }
     }
 
-    // ================= PHASE =================
     void UpdatePhase()
     {
-        float hpPercent = (float)currentHP / maxHP;
+        float hpPercent =
+            (float)currentHP / maxHP;
 
         if (hpPercent <= 0.6f && phase == 1)
         {
@@ -161,14 +194,14 @@ public class Boss : MonoBehaviour
         }
     }
 
-    // ================= DAMAGE =================
     public void TakeDamage(int dmg)
     {
-        if (isDead) return;
+        if (isDead)
+            return;
 
         currentHP -= dmg;
 
-        Debug.Log("Boss HP: " + currentHP);
+        Debug.Log("Boss HP : " + currentHP);
 
         if (currentHP <= 0)
         {
@@ -187,19 +220,23 @@ public class Boss : MonoBehaviour
 
         Debug.Log("Boss Dead");
 
-        // 👉 เล่น animation ตาย
         if (anim != null)
         {
             anim.SetTrigger("die");
         }
 
-        // 👉 แจ้ง GameManager
         if (GameManager.Instance != null)
         {
             GameManager.Instance.BossDefeated();
         }
 
-        // 👉 ทำลายหลัง animation
-        Destroy(gameObject, destroyDelay);
+        StartCoroutine(DisableBoss());
+    }
+
+    IEnumerator DisableBoss()
+    {
+        yield return new WaitForSeconds(destroyDelay);
+
+        gameObject.SetActive(false);
     }
 }

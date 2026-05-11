@@ -4,10 +4,13 @@ using UnityEngine;
 public class EnemyChaser : MonoBehaviour
 {
     [SerializeField] private Transform target;
+
     [SerializeField] private float speed = 6f;
+
     [SerializeField] private float lifeTime = 8f;
 
     private Rigidbody2D rb;
+
     private Vector2 direction;
 
     void Awake()
@@ -18,27 +21,43 @@ public class EnemyChaser : MonoBehaviour
     void OnEnable()
     {
         CancelInvoke();
+
         Invoke(nameof(Disable), lifeTime);
+
+        rb.linearVelocity = Vector2.zero;
 
         if (target == null)
         {
-            GameObject obj = GameObject.FindGameObjectWithTag("Player");
+            GameObject obj =
+                GameObject.FindGameObjectWithTag("Player");
+
             if (obj != null)
+            {
                 target = obj.transform;
+            }
         }
 
         if (target != null)
-            direction = ((Vector2)target.position - rb.position).normalized;
+        {
+            direction =
+                ((Vector2)target.position - rb.position)
+                .normalized;
+        }
     }
 
     void FixedUpdate()
     {
-        rb.velocity = new Vector2(direction.x * speed, rb.velocity.y);
+        rb.linearVelocity =
+            new Vector2(
+                direction.x * speed,
+                rb.linearVelocity.y
+            );
     }
 
     void Disable()
     {
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
+
         gameObject.SetActive(false);
     }
 
@@ -46,9 +65,13 @@ public class EnemyChaser : MonoBehaviour
     {
         if (other.collider.CompareTag("Player"))
         {
-            PlayerController p = other.collider.GetComponent<PlayerController>();
-            if (p != null)
-                p.TakeDamage(1);
+            PlayerController player =
+                other.collider.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                player.TakeDamage(1);
+            }
 
             Disable();
         }

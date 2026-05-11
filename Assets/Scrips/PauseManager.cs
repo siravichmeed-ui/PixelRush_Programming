@@ -6,58 +6,61 @@ public class PauseManager : MonoBehaviour
 {
     public static PauseManager Instance;
 
-    [Header("UI (auto assign)")]
-    private GameObject pauseUI;
-    private GameObject settingsUI;
+    [Header("UI")]
+    [SerializeField] private GameObject pauseUI;
+
+    [SerializeField] private GameObject settingsUI;
 
     private bool isPaused = false;
 
     void Awake()
     {
-        // Singleton
+        // ================= SINGLETON =================
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
+
             return;
         }
     }
 
-    void OnEnable()
+    void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // รีเซ็ตทุกครั้ง
-        isPaused = false;
+        // 👉 reset game state
         Time.timeScale = 1f;
 
-        // ❗ ล้าง reference เก่า (สำคัญมาก)
-        pauseUI = null;
-        settingsUI = null;
+        isPaused = false;
+
+        // 👉 ปิด UI ตอนเริ่ม
+        if (pauseUI != null)
+        {
+            pauseUI.SetActive(false);
+        }
+
+        if (settingsUI != null)
+        {
+            settingsUI.SetActive(false);
+        }
     }
 
     void Update()
     {
-        if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            Debug.Log("ESC pressed");
+        if (Keyboard.current == null)
+            return;
 
-            // ถ้าอยู่ใน Settings → ปิดก่อน
-            if (settingsUI != null && settingsUI.activeSelf)
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            // 👉 ถ้า settings เปิดอยู่
+            // ให้ปิด settings ก่อน
+            if (settingsUI != null &&
+                settingsUI.activeSelf)
             {
                 CloseSettings();
+
                 return;
             }
 
@@ -65,58 +68,93 @@ public class PauseManager : MonoBehaviour
         }
     }
 
-    // ================= REGISTER UI =================
-    public void RegisterPauseUI(GameObject ui)
+    // ================= TOGGLE =================
+    void TogglePause()
     {
-        pauseUI = ui;
-        pauseUI.SetActive(false);
-    }
-
-    public void RegisterSettingsUI(GameObject ui)
-    {
-        settingsUI = ui;
-        settingsUI.SetActive(false);
+        if (isPaused)
+        {
+            Resume();
+        }
+        else
+        {
+            Pause();
+        }
     }
 
     // ================= PAUSE =================
-    public void TogglePause()
-    {
-        if (isPaused) Resume();
-        else Pause();
-    }
-
     public void Pause()
     {
-        if (pauseUI == null)
-        {
-            Debug.LogError("PauseUI not registered!");
-            return;
-        }
-
         isPaused = true;
+
         Time.timeScale = 0f;
-        pauseUI.SetActive(true);
+
+        if (pauseUI != null)
+        {
+            pauseUI.SetActive(true);
+        }
     }
 
+    // ================= RESUME =================
     public void Resume()
     {
         isPaused = false;
+
         Time.timeScale = 1f;
 
         if (pauseUI != null)
+        {
             pauseUI.SetActive(false);
+        }
+
+        if (settingsUI != null)
+        {
+            settingsUI.SetActive(false);
+        }
     }
 
     // ================= SETTINGS =================
     public void OpenSettings()
     {
         if (settingsUI != null)
+        {
             settingsUI.SetActive(true);
+        }
     }
 
     public void CloseSettings()
     {
         if (settingsUI != null)
+        {
             settingsUI.SetActive(false);
+        }
+    }
+
+    // ================= RESTART =================
+    public void RestartGame()
+    {
+        // 👉 reset ทุกอย่างก่อนโหลด scene
+        Time.timeScale = 1f;
+
+        isPaused = false;
+
+        SceneManager.LoadScene(
+            SceneManager.GetActiveScene().buildIndex
+        );
+    }
+
+    // ================= QUIT =================
+    public void QuitGame()
+    {
+        Debug.Log("Quit");
+
+        Application.Quit();
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

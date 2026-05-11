@@ -2,11 +2,22 @@ using UnityEngine;
 
 public class GroundMovement : MonoBehaviour
 {
-    public float speed = 2f;
+    [Header("Speed")]
+    [SerializeField] private float moveMultiplier = 1f;
 
     void Update()
     {
-        transform.position += Vector3.left * speed * Time.deltaTime;
+        if (GameManager.Instance == null)
+            return;
+
+        float speed =
+            GameManager.Instance.speed *
+            moveMultiplier;
+
+        transform.position +=
+            Vector3.left *
+            speed *
+            Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

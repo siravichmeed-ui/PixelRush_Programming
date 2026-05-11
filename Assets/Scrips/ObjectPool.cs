@@ -8,51 +8,107 @@ public class ObjectPool : MonoBehaviour
     [System.Serializable]
     public class Pool
     {
-        public string tag;
         public GameObject prefab;
-        public int size;
+
+        public int size = 10;
     }
 
-    public List<Pool> pools;
+    [Header("Start Pools")]
+    [SerializeField] private Pool[] pools;
 
-    private Dictionary<string, Queue<GameObject>> poolDict;
+    private Dictionary<string, List<GameObject>> poolDict =
+        new Dictionary<string, List<GameObject>>();
 
     void Awake()
     {
-        Instance = this;
-        poolDict = new Dictionary<string, Queue<GameObject>>();
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+
+            return;
+        }
 
         foreach (Pool pool in pools)
         {
-            Queue<GameObject> queue = new Queue<GameObject>();
-
-            for (int i = 0; i < pool.size; i++)
-            {
-                GameObject obj = Instantiate(pool.prefab);
-                obj.SetActive(false);
-                queue.Enqueue(obj);
-            }
-
-            poolDict.Add(pool.tag, queue);
+            CreatePool(pool.prefab, pool.size);
         }
     }
 
-    public GameObject Spawn(string tag, Vector3 pos, Quaternion rot)
+    // ================= CREATE =================
+    void CreatePool(GameObject prefab, int size)
     {
-        if (!poolDict.ContainsKey(tag))
+        string key = prefab.name;
+
+        if (poolDict.ContainsKey(key))
+            return;
+
+        List<GameObject> list =
+            new List<GameObject>();
+
+        for (int i = 0; i < size; i++)
         {
-            Debug.LogError("No pool: " + tag);
-            return null;
+            GameObject obj =
+                Instantiate(prefab);
+
+            obj.SetActive(false);
+
+            list.Add(obj);
         }
 
-        GameObject obj = poolDict[tag].Dequeue();
+        poolDict.Add(key, list);
+    }
 
-        obj.SetActive(true);
-        obj.transform.position = pos;
-        obj.transform.rotation = rot;
+    // ================= SPAWN =================
+    public GameObject Spawn(
+        GameObject prefab,
+        Vector3 pos,
+        Quaternion rot
+    )
+    {
+        string key = prefab.name;
 
-        poolDict[tag].Enqueue(obj);
+        // 👉 ไม่มี pool = สร้างให้อัตโนมัติ
+        if (!poolDict.ContainsKey(key))
+        {
+            Debug.Log(
+                "Auto Create Pool : " + key
+            );
 
-        return obj;
+            CreatePool(prefab, 10);
+        }
+
+        List<GameObject> list =
+            poolDict[key];
+
+        // 👉 หา object ว่าง
+        foreach (GameObject obj in list)
+        {
+            if (!obj.activeInHierarchy)
+            {
+                obj.transform.position = pos;
+                obj.transform.rotation = rot;
+
+                obj.SetActive(true);
+
+                return obj;
+            }
+        }
+
+        // 👉 ถ้าเต็ม เพิ่มใหม่อัตโนมัติ
+        GameObject newObj =
+            Instantiate(prefab);
+
+        newObj.transform.position = pos;
+        newObj.transform.rotation = rot;
+
+        newObj.SetActive(true);
+
+        list.Add(newObj);
+
+        return newObj;
     }
 }
