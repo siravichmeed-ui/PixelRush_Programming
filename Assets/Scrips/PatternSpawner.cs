@@ -5,18 +5,30 @@ public class PatternSpawner : MonoBehaviour
 {
     [Header("Pattern")]
     public PatternData[] easy;
+
     public PatternData[] medium;
+
     public PatternData[] hard;
 
+    // ================= BOSS =================
     [Header("Boss")]
     public GameObject bossPrefab;
+
     public float bossDistance = 300f;
+
     public Vector2 bossSpawnPosition =
         new Vector2(10f, 0f);
 
-    [Header("Item")]
-    public GameObject itemPrefab;
+    // ================= ITEM =================
+    [Header("Normal Item")]
+    public GameObject[] normalItems;
+
+    [Header("Boss Item")]
+    public GameObject[] bossItems;
+
+    [Header("Item Setting")]
     public float itemDelay = 2f;
+
     public Transform[] itemSpawnPoints;
 
     private bool bossSpawned = false;
@@ -24,8 +36,11 @@ public class PatternSpawner : MonoBehaviour
     void Start()
     {
         StartCoroutine(SpawnLoop());
+
+        StartCoroutine(ItemLoop());
     }
 
+    // ================= MAIN LOOP =================
     IEnumerator SpawnLoop()
     {
         while (true)
@@ -33,11 +48,13 @@ public class PatternSpawner : MonoBehaviour
             float distance =
                 GameManager.Instance.distance;
 
+            // 👉 spawn boss
             if (!bossSpawned &&
                 distance >= bossDistance)
             {
                 SpawnBoss();
 
+                // 👉 หยุด wave ปกติ
                 yield break;
             }
 
@@ -55,6 +72,7 @@ public class PatternSpawner : MonoBehaviour
         }
     }
 
+    // ================= GET PATTERN =================
     PatternData GetPattern(float distance)
     {
         if (distance < 100f)
@@ -67,15 +85,22 @@ public class PatternSpawner : MonoBehaviour
         if (distance < 200f)
         {
             return medium[
-                Random.Range(0, medium.Length)
+                Random.Range(
+                    0,
+                    medium.Length
+                )
             ];
         }
 
         return hard[
-            Random.Range(0, hard.Length)
+            Random.Range(
+                0,
+                hard.Length
+            )
         ];
     }
 
+    // ================= SPAWN PATTERN =================
     IEnumerator SpawnPattern(
         PatternData pattern,
         float distance
@@ -83,8 +108,11 @@ public class PatternSpawner : MonoBehaviour
     {
         foreach (var rule in pattern.spawnRules)
         {
-            if (Random.value > rule.spawnChance)
+            if (Random.value >
+                rule.spawnChance)
+            {
                 continue;
+            }
 
             Transform spawnPoint =
                 GetSpawnPoint(
@@ -123,6 +151,7 @@ public class PatternSpawner : MonoBehaviour
         }
     }
 
+    // ================= GET SPAWN POINT =================
     Transform GetSpawnPoint(
         SpawnRule rule,
         Transform[] defaultPoints
@@ -174,6 +203,7 @@ public class PatternSpawner : MonoBehaviour
         return defaultPoints[0];
     }
 
+    // ================= SPAWN BOSS =================
     void SpawnBoss()
     {
         bossSpawned = true;
@@ -186,19 +216,14 @@ public class PatternSpawner : MonoBehaviour
 
         GameManager.Instance.EnterBossPhase();
 
-        StartCoroutine(ItemLoop());
+        Debug.Log("Boss Spawn");
     }
 
+    // ================= ITEM LOOP =================
     IEnumerator ItemLoop()
     {
         while (true)
         {
-            if (Boss.Instance == null ||
-                Boss.Instance.IsDead())
-            {
-                yield break;
-            }
-
             SpawnItem();
 
             yield return new WaitForSeconds(
@@ -207,6 +232,7 @@ public class PatternSpawner : MonoBehaviour
         }
     }
 
+    // ================= SPAWN ITEM =================
     void SpawnItem()
     {
         if (itemSpawnPoints == null ||
@@ -215,6 +241,26 @@ public class PatternSpawner : MonoBehaviour
             return;
         }
 
+        GameObject[] currentPool;
+
+        // 👉 ก่อน boss
+        if (!GameManager.Instance.isBossPhase)
+        {
+            currentPool = normalItems;
+        }
+        // 👉 ตอน boss
+        else
+        {
+            currentPool = bossItems;
+        }
+
+        if (currentPool == null ||
+            currentPool.Length == 0)
+        {
+            return;
+        }
+
+        // 👉 สุ่มตำแหน่ง
         Transform point =
             itemSpawnPoints[
                 Random.Range(
@@ -223,22 +269,22 @@ public class PatternSpawner : MonoBehaviour
                 )
             ];
 
-        Vector2 pos = point.position;
+        // 👉 สุ่ม item
+        GameObject randomItem =
+            currentPool[
+                Random.Range(
+                    0,
+                    currentPool.Length
+                )
+            ];
 
-        GameObject obj =
-            ObjectPool.Instance.Spawn(
-                itemPrefab,
-                pos,
-                Quaternion.identity
-            );
+        Vector2 pos =
+            point.position;
 
-        Rigidbody2D rb =
-            obj.GetComponent<Rigidbody2D>();
-
-        if (rb != null)
-        {
-            rb.linearVelocity =
-                Vector2.left * 5f;
-        }
+        ObjectPool.Instance.Spawn(
+            randomItem,
+            pos,
+            Quaternion.identity
+        );
     }
 }

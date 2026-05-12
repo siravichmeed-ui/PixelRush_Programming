@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8616992364634275043}
   - component: {fileID: 2979738635668617003}
   - component: {fileID: 7727511484940364327}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: GameObject
   m_TagString: Trigger Wall
   m_Icon: {fileID: 0}
@@ -27,8 +27,8 @@ Transform:
   m_GameObject: {fileID: 3549079802322612183}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.277, y: 4.79, z: 0}
-  m_LocalScale: {x: 0.040947855, y: 10.315856, z: 1}
+  m_LocalPosition: {x: -0.211, y: 4.79, z: 0}
+  m_LocalScale: {x: 0.08803789, y: 10.315856, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4535111423640296133}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 3495068454301973914}
   - component: {fileID: 1844973678057118633}
   - component: {fileID: 7446618312077890397}
-  m_Layer: 6
+  m_Layer: 3
   m_Name: Square
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.032266043, g: 0.3773585, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -245,6 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c42b067a2b1618429afab46222bb790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundMovement
+  moveMultiplier: 1
 --- !u!50 &7446618312077890397
 Rigidbody2D:
   serializedVersion: 5

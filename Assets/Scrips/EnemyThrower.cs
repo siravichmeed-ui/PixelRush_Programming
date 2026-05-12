@@ -14,6 +14,10 @@ public class EnemyThrower : MonoBehaviour
     private Vector2 throwForce =
         new Vector2(2f, 5f);
 
+    [Header("Speed Sync")]
+    [SerializeField]
+    private float speedMultiplier = 0.3f;
+
     private float timer;
 
     void Update()
@@ -48,20 +52,27 @@ public class EnemyThrower : MonoBehaviour
 
         if (rb != null)
         {
+            // 👉 reset physics
             rb.linearVelocity =
                 Vector2.zero;
 
             rb.angularVelocity = 0f;
 
+            // 👉 random force
             float randomX =
                 Random.Range(1f, 3f);
 
             float randomY =
                 Random.Range(4f, 7f);
 
+            // 👉 sync กับ game speed
+            float extraSpeed =
+                GameManager.Instance.speed *
+                speedMultiplier;
+
             Vector2 force =
                 new Vector2(
-                    randomX,
+                    randomX + extraSpeed,
                     randomY
                 );
 
@@ -70,6 +81,7 @@ public class EnemyThrower : MonoBehaviour
                 ForceMode2D.Impulse
             );
 
+            // 👉 random spin
             rb.angularVelocity =
                 Random.Range(-200f, 200f);
         }

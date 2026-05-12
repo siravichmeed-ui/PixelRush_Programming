@@ -5,9 +5,12 @@ public class EnemyChaser : MonoBehaviour
 {
     [SerializeField] private Transform target;
 
-    [SerializeField] private float speed = 6f;
+    [Header("Move")]
+    [SerializeField]
+    private float moveMultiplier = 1f;
 
-    [SerializeField] private float lifeTime = 8f;
+    [SerializeField]
+    private float lifeTime = 8f;
 
     private Rigidbody2D rb;
 
@@ -29,7 +32,9 @@ public class EnemyChaser : MonoBehaviour
         if (target == null)
         {
             GameObject obj =
-                GameObject.FindGameObjectWithTag("Player");
+                GameObject.FindGameObjectWithTag(
+                    "Player"
+                );
 
             if (obj != null)
             {
@@ -40,16 +45,23 @@ public class EnemyChaser : MonoBehaviour
         if (target != null)
         {
             direction =
-                ((Vector2)target.position - rb.position)
-                .normalized;
+                (
+                    (Vector2)target.position -
+                    rb.position
+                ).normalized;
         }
     }
 
     void FixedUpdate()
     {
+        // 👉 sync กับ game speed
+        float moveSpeed =
+            GameManager.Instance.speed *
+            moveMultiplier;
+
         rb.linearVelocity =
             new Vector2(
-                direction.x * speed,
+                direction.x * moveSpeed,
                 rb.linearVelocity.y
             );
     }
@@ -61,12 +73,15 @@ public class EnemyChaser : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnCollisionEnter2D(
+        Collision2D other
+    )
     {
         if (other.collider.CompareTag("Player"))
         {
             PlayerController player =
-                other.collider.GetComponent<PlayerController>();
+                other.collider.GetComponent
+                <PlayerController>();
 
             if (player != null)
             {
