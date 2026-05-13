@@ -21,14 +21,27 @@ public class PatternSpawner : MonoBehaviour
 
     // ================= ITEM =================
     [Header("Normal Item")]
-    public GameObject[] normalItems;
+    public ItemSpawnData[] normalItems;
 
     [Header("Boss Item")]
-    public GameObject[] bossItems;
+    public ItemSpawnData[] bossItems;
 
-    [Header("Item Setting")]
+    // ================= ITEM COOLDOWN =================
+    [Header("Item Cooldown")]
     public float itemDelay = 2f;
 
+    public float bossItemDelay = 5f;
+
+    // ================= ITEM SPAWN CHANCE =================
+    [Header("Item Spawn Chance")]
+    [Range(0f, 1f)]
+    public float itemSpawnChance = 0.4f;
+
+    [Range(0f, 1f)]
+    public float bossItemSpawnChance = 0.8f;
+
+    // ================= ITEM SPAWN POINT =================
+    [Header("Spawn Point")]
     public Transform[] itemSpawnPoints;
 
     private bool bossSpawned = false;
@@ -54,7 +67,6 @@ public class PatternSpawner : MonoBehaviour
             {
                 SpawnBoss();
 
-                // 👉 หยุด wave ปกติ
                 yield break;
             }
 
@@ -224,10 +236,40 @@ public class PatternSpawner : MonoBehaviour
     {
         while (true)
         {
-            SpawnItem();
+            float chance;
+
+            // 👉 ตอน boss
+            if (GameManager.Instance.isBossPhase)
+            {
+                chance = bossItemSpawnChance;
+            }
+            // 👉 ตอนปกติ
+            else
+            {
+                chance = itemSpawnChance;
+            }
+
+            // 👉 สุ่มว่าจะ spawn ไหม
+            if (Random.value <= chance)
+            {
+                SpawnItem();
+            }
+
+            float delay;
+
+            // 👉 cooldown boss
+            if (GameManager.Instance.isBossPhase)
+            {
+                delay = bossItemDelay;
+            }
+            // 👉 cooldown ปกติ
+            else
+            {
+                delay = itemDelay;
+            }
 
             yield return new WaitForSeconds(
-                itemDelay
+                delay
             );
         }
     }
@@ -241,7 +283,7 @@ public class PatternSpawner : MonoBehaviour
             return;
         }
 
-        GameObject[] currentPool;
+        ItemSpawnData[] currentPool;
 
         // 👉 ก่อน boss
         if (!GameManager.Instance.isBossPhase)
@@ -269,22 +311,47 @@ public class PatternSpawner : MonoBehaviour
                 )
             ];
 
-        // 👉 สุ่ม item
+        // 👉 สุ่ม item ตาม weight
         GameObject randomItem =
-            currentPool[
-                Random.Range(
-                    0,
-                    currentPool.Length
-                )
-            ];
+            GetRandomItem(currentPool);
 
-        Vector2 pos =
-            point.position;
+        if (randomItem == null)
+            return;
 
         ObjectPool.Instance.Spawn(
             randomItem,
-            pos,
+            point.position,
             Quaternion.identity
         );
+    }
+
+    // ================= WEIGHT RANDOM =================
+    GameObject GetRandomItem(
+        ItemSpawnData[] pool
+    )
+    {
+        int totalWeight = 0;
+
+        foreach (ItemSpawnData item in pool)
+        {
+            totalWeight += item.weight;
+        }
+
+        int random =
+            Random.Range(0, totalWeight);
+
+        int current = 0;
+
+        foreach (ItemSpawnData item in pool)
+        {
+            current += item.weight;
+
+            if (random < current)
+            {
+                return item.prefab;
+            }
+        }
+
+        return null;
     }
 }

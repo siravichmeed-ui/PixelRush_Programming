@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
     public float distance = 0f;
 
     [Header("Speed")]
-    public float speed = 5f;
+    public float baseSpeed = 5f;
+
+    public float speed;
 
     public float speedIncreaseRate = 0.02f;
 
@@ -20,7 +22,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // ================= SINGLETON =================
+        Time.timeScale = 1f;
+
         if (Instance == null)
         {
             Instance = this;
@@ -32,7 +35,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        ResetGame();
+        speed = baseSpeed;
     }
 
     void Update()
@@ -40,9 +43,9 @@ public class GameManager : MonoBehaviour
         if (!isGameRunning)
             return;
 
-        distance +=
-            speed * Time.deltaTime;
+        distance += speed * Time.deltaTime;
 
+        // 👉 เพิ่มความเร็วเรื่อย ๆ
         speed +=
             speedIncreaseRate *
             Time.deltaTime;
@@ -68,9 +71,7 @@ public class GameManager : MonoBehaviour
     {
         distance = 0f;
 
-        speed = 5f;
-
-        speedIncreaseRate = 0.02f;
+        speed = baseSpeed;
 
         isBossPhase = false;
 
@@ -99,16 +100,10 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
 
+        ResetGame();
+
         SceneManager.LoadScene(
             SceneManager.GetActiveScene().buildIndex
         );
-    }
-
-    void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
     }
 }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5346819679049962441}
   - component: {fileID: -6397508361897395840}
   m_Layer: 0
-  m_Name: Item to Boss 2
+  m_Name: Speed
   m_TagString: Destroy Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

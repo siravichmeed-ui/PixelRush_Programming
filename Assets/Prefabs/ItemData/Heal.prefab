@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3829494165139429257}
   - component: {fileID: 2041534097935022873}
   m_Layer: 0
-  m_Name: Item to Boss 1
+  m_Name: Heal
   m_TagString: Destroy Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
