@@ -43,12 +43,9 @@ public class Boss : MonoBehaviour
     {
         Instance = this;
     }
-    void OnDisable()
+    void OnEnable()
     {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
+        Instance = this;
     }
 
     void Start()
