@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ef1f43ce28a3d8f438287685cdd113c7
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 332078
+  packageName: BoldPixels
+  packageVersion: 1.5.0
+  assetPath: Assets/BoldPixels/Assets/Settings/Lit2DSceneTemplate.scenetemplate
+  uploadId: 785910

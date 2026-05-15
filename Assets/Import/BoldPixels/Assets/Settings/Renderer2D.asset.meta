@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 94862fd331cf0b84e90cc0f8e41da9d1
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 332078
+  packageName: BoldPixels
+  packageVersion: 1.5.0
+  assetPath: Assets/BoldPixels/Assets/Settings/Renderer2D.asset
+  uploadId: 785910

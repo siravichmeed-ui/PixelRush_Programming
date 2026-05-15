@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8431cac5d96df1e4d9538e86bc085ff1
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 332078
+  packageName: BoldPixels
+  packageVersion: 1.5.0
+  assetPath: Assets/BoldPixels/Assets/Settings/Scenes/URP2DSceneTemplate.unity
+  uploadId: 785910
