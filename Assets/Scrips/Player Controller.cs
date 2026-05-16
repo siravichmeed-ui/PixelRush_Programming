@@ -21,6 +21,16 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private SpriteRenderer sr;
 
+    // ================= DAMAGE SKILL =================
+    [Header("Damage Skill")]
+    [SerializeField]
+    private GameObject fireballPrefab;
+
+    [SerializeField]
+    private Transform firePoint;
+
+    private int pendingDamage = 0;
+
     // ================= EFFECT =================
     [Header("Effects")]
     [SerializeField] private GameObject healEffect;
@@ -328,10 +338,8 @@ public class PlayerController : MonoBehaviour
      float duration
  )
     {
-        // 👉 เพิ่มเวลาก่อน
         speedBoostTimer += duration;
 
-        // 👉 ถ้ายังไม่มีบัฟ
         if (speedCoroutine == null)
         {
             currentSpeedMultiplier =
@@ -349,7 +357,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Speed Boost ON");
         }
 
-        // 👉 เปิด effect
         if (speedEffect != null)
         {
             speedEffect.SetActive(true);
@@ -480,6 +487,53 @@ public class PlayerController : MonoBehaviour
     public void PlayAttack()
     {
         anim.SetTrigger("attack");
+    }
+
+    // ================= DAMAGE ITEM =================
+    public void UseDamageItem(int dmg)
+    {
+        pendingDamage = dmg;
+
+        anim.SetTrigger("attack");
+    }
+
+    public void SpawnFireball()
+    {
+        if (Boss.Instance == null)
+            return;
+
+        GameObject obj =
+            ObjectPool.Instance.Spawn(
+                fireballPrefab,
+                firePoint.position,
+                Quaternion.identity
+            );
+
+        Collider2D fireballCol =
+            obj.GetComponent<Collider2D>();
+
+        Collider2D playerCol =
+            GetComponent<Collider2D>();
+
+        if (fireballCol != null &&
+            playerCol != null)
+        {
+            Physics2D.IgnoreCollision(
+                fireballCol,
+                playerCol
+            );
+        }
+
+        FireballHoming fireball =
+            obj.GetComponent<FireballHoming>();
+
+        if (fireball != null)
+        {
+            fireball.Init(
+                Boss.Instance,
+                pendingDamage
+            );
+        }
     }
 
     // ================= DEBUG =================

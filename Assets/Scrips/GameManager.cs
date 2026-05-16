@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 
     public bool isBossPhase = false;
 
+    public bool isEndlessPhase = false;
+
     void Awake()
     {
         Time.timeScale = 1f;
@@ -75,6 +77,8 @@ public class GameManager : MonoBehaviour
 
         isBossPhase = false;
 
+        isEndlessPhase = false;
+
         isGameRunning = true;
 
         Time.timeScale = 1f;
@@ -88,11 +92,17 @@ public class GameManager : MonoBehaviour
         speedIncreaseRate = 0f;
     }
 
+    // ================= ENDLESS =================
     public void BossDefeated()
     {
-        Debug.Log("Boss Cleared!");
+        Debug.Log("ENTER ENDLESS MODE");
 
-        StopGame();
+        isBossPhase = false;
+
+        isEndlessPhase = true;
+
+        // 👉 เพิ่มความเร็วอีกครั้ง
+        speedIncreaseRate = 0.05f;
     }
 
     // ================= RESTART =================

@@ -8,49 +8,85 @@ public class Boss : MonoBehaviour
     [Header("References")]
     [SerializeField] private Transform player;
 
+    // ================= ARM =================
     [Header("Arm")]
     [SerializeField] private GameObject armObject;
+
     [SerializeField] private Animator armAnim;
 
+    // ================= SHOOT =================
     [Header("Shoot Point")]
     [SerializeField] private Transform shootPos;
 
     [Header("Projectile Arm")]
     [SerializeField] private GameObject armPrefab;
 
+    // ================= ATTACK =================
     [Header("Attack")]
     [SerializeField] private float attackCooldown = 2f;
 
+    // ================= AIM =================
     [Header("Aim")]
     [SerializeField] private float rotateSpeed = 10f;
+
     [SerializeField] private float minAngle = -80f;
+
     [SerializeField] private float maxAngle = 80f;
+
     [SerializeField] private float angleOffset = 0f;
 
+    // ================= HP =================
     [Header("HP")]
     [SerializeField] private int maxHP = 10;
 
+    [SerializeField] private BossUI bossUI;
+
+    // ================= EFFECT =================
+    [Header("Effect")]
     [SerializeField] private Animator anim;
+
+    [SerializeField] private SpriteRenderer sr;
+
     [SerializeField] private float destroyDelay = 1.5f;
 
+    // ================= STATE =================
     private int currentHP;
+
     private float attackTimer;
+
     private int phase = 1;
+
     private bool isArmOut = false;
+
     private bool isDead = false;
 
+    // ================= UNITY =================
     void Awake()
     {
         Instance = this;
     }
+
     void OnEnable()
     {
         Instance = this;
-    }
 
-    void Start()
-    {
         currentHP = maxHP;
+
+        attackTimer = 0f;
+
+        phase = 1;
+
+        isDead = false;
+
+        isArmOut = false;
+
+        attackCooldown = 2f;
+
+        if (bossUI != null)
+        {
+            bossUI.Show(maxHP);
+        }
+
         FindPlayer();
     }
 
@@ -62,6 +98,7 @@ public class Boss : MonoBehaviour
         if (player == null)
         {
             FindPlayer();
+
             return;
         }
 
@@ -75,10 +112,13 @@ public class Boss : MonoBehaviour
         AimShootPos();
     }
 
+    // ================= FIND PLAYER =================
     void FindPlayer()
     {
         GameObject obj =
-            GameObject.FindGameObjectWithTag("Player");
+            GameObject.FindGameObjectWithTag(
+                "Player"
+            );
 
         if (obj != null)
         {
@@ -86,17 +126,27 @@ public class Boss : MonoBehaviour
         }
     }
 
+    // ================= AIM =================
     void AimShootPos()
     {
-        if (isArmOut || shootPos == null || player == null)
+        if (
+            isArmOut ||
+            shootPos == null ||
+            player == null
+        )
+        {
             return;
+        }
 
         Vector2 dir =
-            player.position - shootPos.position;
+            player.position -
+            shootPos.position;
 
         float angle =
-            Mathf.Atan2(dir.y, dir.x)
-            * Mathf.Rad2Deg;
+            Mathf.Atan2(
+                dir.y,
+                dir.x
+            ) * Mathf.Rad2Deg;
 
         angle += angleOffset;
 
@@ -107,16 +157,22 @@ public class Boss : MonoBehaviour
         );
 
         Quaternion targetRot =
-            Quaternion.Euler(0, 0, angle);
+            Quaternion.Euler(
+                0,
+                0,
+                angle
+            );
 
         shootPos.localRotation =
             Quaternion.Lerp(
                 shootPos.localRotation,
                 targetRot,
-                Time.deltaTime * rotateSpeed
+                Time.deltaTime *
+                rotateSpeed
             );
     }
 
+    // ================= ATTACK =================
     void HandleAttack()
     {
         if (isArmOut)
@@ -130,15 +186,23 @@ public class Boss : MonoBehaviour
 
             if (armAnim != null)
             {
-                armAnim.SetTrigger("attack");
+                armAnim.SetTrigger(
+                    "attack"
+                );
             }
         }
     }
 
     public void ShootArm()
     {
-        if (isArmOut || shootPos == null || armPrefab == null)
+        if (
+            isArmOut ||
+            shootPos == null ||
+            armPrefab == null
+        )
+        {
             return;
+        }
 
         isArmOut = true;
 
@@ -159,7 +223,10 @@ public class Boss : MonoBehaviour
 
         if (proj != null)
         {
-            proj.Init(this, player);
+            proj.Init(
+                this,
+                player
+            );
         }
     }
 
@@ -173,24 +240,44 @@ public class Boss : MonoBehaviour
         }
     }
 
+    // ================= PHASE =================
     void UpdatePhase()
     {
         float hpPercent =
             (float)currentHP / maxHP;
 
-        if (hpPercent <= 0.6f && phase == 1)
+        // 👉 phase 2
+        if (
+            hpPercent <= 0.6f &&
+            phase == 1
+        )
         {
             phase = 2;
+
             attackCooldown = 1.2f;
+
+            Debug.Log(
+                "Boss Phase 2"
+            );
         }
 
-        if (hpPercent <= 0.3f && phase == 2)
+        // 👉 phase 3
+        if (
+            hpPercent <= 0.3f &&
+            phase == 2
+        )
         {
             phase = 3;
+
             attackCooldown = 0.7f;
+
+            Debug.Log(
+                "Boss Phase 3"
+            );
         }
     }
 
+    // ================= DAMAGE =================
     public void TakeDamage(int dmg)
     {
         if (isDead)
@@ -198,42 +285,99 @@ public class Boss : MonoBehaviour
 
         currentHP -= dmg;
 
-        Debug.Log("Boss HP : " + currentHP);
+        if (currentHP < 0)
+        {
+            currentHP = 0;
+        }
 
+        Debug.Log(
+            "Boss HP : " +
+            currentHP
+        );
+
+        // 👉 update hp bar
+        if (bossUI != null)
+        {
+            bossUI.UpdateHP(
+                currentHP
+            );
+        }
+
+        // 👉 hit animation
+        if (anim != null)
+        {
+            anim.SetTrigger("hit");
+        }
+
+        // 👉 hit flash
+        StartCoroutine(
+            HitFlash()
+        );
+
+        // 👉 die
         if (currentHP <= 0)
         {
             Die();
         }
     }
 
-    public bool IsDead()
+    IEnumerator HitFlash()
     {
-        return isDead;
+        if (sr == null)
+            yield break;
+
+        sr.color = Color.red;
+
+        yield return new WaitForSeconds(
+            0.1f
+        );
+
+        sr.color = Color.white;
     }
 
+    // ================= DIE =================
     void Die()
     {
         isDead = true;
 
         Debug.Log("Boss Dead");
 
+        // 👉 hide hp bar
+        if (bossUI != null)
+        {
+            bossUI.Hide();
+        }
+
+        // 👉 animation
         if (anim != null)
         {
             anim.SetTrigger("die");
         }
 
+        // 👉 game clear
         if (GameManager.Instance != null)
         {
-            GameManager.Instance.BossDefeated();
+            GameManager.Instance
+                .BossDefeated();
         }
 
-        StartCoroutine(DisableBoss());
+        StartCoroutine(
+            DisableBoss()
+        );
     }
 
     IEnumerator DisableBoss()
     {
-        yield return new WaitForSeconds(destroyDelay);
+        yield return new WaitForSeconds(
+            destroyDelay
+        );
 
         gameObject.SetActive(false);
+    }
+
+    // ================= DEBUG =================
+    public bool IsDead()
+    {
+        return isDead;
     }
 }

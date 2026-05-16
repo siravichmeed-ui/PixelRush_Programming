@@ -3,12 +3,17 @@ using System.Collections;
 
 public class PatternSpawner : MonoBehaviour
 {
+    // ================= NORMAL PATTERN =================
     [Header("Pattern")]
     public PatternData[] easy;
 
     public PatternData[] medium;
 
     public PatternData[] hard;
+
+    // ================= ENDLESS PATTERN =================
+    [Header("Endless")]
+    public PatternData[] endless;
 
     // ================= BOSS =================
     [Header("Boss")]
@@ -18,6 +23,10 @@ public class PatternSpawner : MonoBehaviour
 
     public Vector2 bossSpawnPosition =
         new Vector2(10f, 0f);
+
+    // ================= ENDLESS =================
+    [Header("Endless Setting")]
+    public float endlessDelay = 5f;
 
     // ================= ITEM =================
     [Header("Normal Item")]
@@ -44,7 +53,10 @@ public class PatternSpawner : MonoBehaviour
     [Header("Spawn Point")]
     public Transform[] itemSpawnPoints;
 
+    // ================= STATE =================
     private bool bossSpawned = false;
+
+    private bool waitingEndless = false;
 
     void Start()
     {
@@ -61,24 +73,56 @@ public class PatternSpawner : MonoBehaviour
             float distance =
                 GameManager.Instance.distance;
 
-            // 👉 spawn boss
+            // ================= SPAWN BOSS =================
             if (!bossSpawned &&
                 distance >= bossDistance)
             {
                 SpawnBoss();
 
-                yield break;
+                bossSpawned = true;
+            }
+
+            // ================= BOSS PHASE =================
+            if (GameManager.Instance.isBossPhase)
+            {
+                yield return null;
+
+                continue;
+            }
+
+            // ================= WAIT ENDLESS =================
+            if (
+                !waitingEndless &&
+                GameManager.Instance.isEndlessPhase
+            )
+            {
+                waitingEndless = true;
+
+                Debug.Log(
+                    "WAIT ENDLESS..."
+                );
+
+                yield return new WaitForSeconds(
+                    endlessDelay
+                );
+
+                Debug.Log(
+                    "ENDLESS START"
+                );
             }
 
             PatternData pattern =
                 GetPattern(distance);
 
-            yield return StartCoroutine(
-                SpawnPattern(
-                    pattern,
-                    distance
-                )
-            );
+            if (pattern != null)
+            {
+                yield return StartCoroutine(
+                    SpawnPattern(
+                        pattern,
+                        distance
+                    )
+                );
+            }
 
             yield return new WaitForSeconds(1f);
         }
@@ -87,13 +131,44 @@ public class PatternSpawner : MonoBehaviour
     // ================= GET PATTERN =================
     PatternData GetPattern(float distance)
     {
-        if (distance < 100f)
+        // ================= ENDLESS =================
+        if (GameManager.Instance.isEndlessPhase)
         {
-            return easy[
-                Random.Range(0, easy.Length)
+            // 👉 ใช้ endless pattern
+            if (
+                endless != null &&
+                endless.Length > 0
+            )
+            {
+                return endless[
+                    Random.Range(
+                        0,
+                        endless.Length
+                    )
+                ];
+            }
+
+            // 👉 fallback
+            return hard[
+                Random.Range(
+                    0,
+                    hard.Length
+                )
             ];
         }
 
+        // ================= EASY =================
+        if (distance < 100f)
+        {
+            return easy[
+                Random.Range(
+                    0,
+                    easy.Length
+                )
+            ];
+        }
+
+        // ================= MEDIUM =================
         if (distance < 200f)
         {
             return medium[
@@ -104,6 +179,7 @@ public class PatternSpawner : MonoBehaviour
             ];
         }
 
+        // ================= HARD =================
         return hard[
             Random.Range(
                 0,
@@ -120,8 +196,10 @@ public class PatternSpawner : MonoBehaviour
     {
         foreach (var rule in pattern.spawnRules)
         {
-            if (Random.value >
-                rule.spawnChance)
+            if (
+                Random.value >
+                rule.spawnChance
+            )
             {
                 continue;
             }
@@ -153,6 +231,15 @@ public class PatternSpawner : MonoBehaviour
                 float speed =
                     3f + distance * 0.05f;
 
+                // 👉 endless เร็วขึ้น
+                if (
+                    GameManager.Instance
+                    .isEndlessPhase
+                )
+                {
+                    speed *= 1.3f;
+                }
+
                 rb.linearVelocity =
                     Vector2.left * speed;
             }
@@ -169,14 +256,17 @@ public class PatternSpawner : MonoBehaviour
         Transform[] defaultPoints
     )
     {
-        if (defaultPoints == null ||
-            defaultPoints.Length == 0)
+        if (
+            defaultPoints == null ||
+            defaultPoints.Length == 0
+        )
         {
             return null;
         }
 
         switch (rule.mode)
         {
+            // ================= RANDOM =================
             case SpawnMode.RandomAll:
 
                 return defaultPoints[
@@ -186,6 +276,7 @@ public class PatternSpawner : MonoBehaviour
                     )
                 ];
 
+            // ================= FIXED =================
             case SpawnMode.Fixed:
 
                 int index = Mathf.Clamp(
@@ -196,10 +287,13 @@ public class PatternSpawner : MonoBehaviour
 
                 return defaultPoints[index];
 
+            // ================= CUSTOM =================
             case SpawnMode.CustomSet:
 
-                if (rule.customPoints != null &&
-                    rule.customPoints.Length > 0)
+                if (
+                    rule.customPoints != null &&
+                    rule.customPoints.Length > 0
+                )
                 {
                     return rule.customPoints[
                         Random.Range(
@@ -218,8 +312,6 @@ public class PatternSpawner : MonoBehaviour
     // ================= SPAWN BOSS =================
     void SpawnBoss()
     {
-        bossSpawned = true;
-
         ObjectPool.Instance.Spawn(
             bossPrefab,
             bossSpawnPosition,
@@ -238,18 +330,20 @@ public class PatternSpawner : MonoBehaviour
         {
             float chance;
 
-            // 👉 ตอน boss
+            // ================= BOSS ITEM =================
             if (GameManager.Instance.isBossPhase)
             {
-                chance = bossItemSpawnChance;
+                chance =
+                    bossItemSpawnChance;
             }
-            // 👉 ตอนปกติ
+            // ================= NORMAL / ENDLESS =================
             else
             {
-                chance = itemSpawnChance;
+                chance =
+                    itemSpawnChance;
             }
 
-            // 👉 สุ่มว่าจะ spawn ไหม
+            // 👉 spawn item
             if (Random.value <= chance)
             {
                 SpawnItem();
@@ -257,12 +351,12 @@ public class PatternSpawner : MonoBehaviour
 
             float delay;
 
-            // 👉 cooldown boss
+            // ================= BOSS DELAY =================
             if (GameManager.Instance.isBossPhase)
             {
                 delay = bossItemDelay;
             }
-            // 👉 cooldown ปกติ
+            // ================= NORMAL DELAY =================
             else
             {
                 delay = itemDelay;
@@ -277,32 +371,36 @@ public class PatternSpawner : MonoBehaviour
     // ================= SPAWN ITEM =================
     void SpawnItem()
     {
-        if (itemSpawnPoints == null ||
-            itemSpawnPoints.Length == 0)
+        if (
+            itemSpawnPoints == null ||
+            itemSpawnPoints.Length == 0
+        )
         {
             return;
         }
 
         ItemSpawnData[] currentPool;
 
-        // 👉 ก่อน boss
-        if (!GameManager.Instance.isBossPhase)
-        {
-            currentPool = normalItems;
-        }
-        // 👉 ตอน boss
-        else
+        // ================= BOSS ITEM =================
+        if (GameManager.Instance.isBossPhase)
         {
             currentPool = bossItems;
         }
+        // ================= NORMAL / ENDLESS =================
+        else
+        {
+            currentPool = normalItems;
+        }
 
-        if (currentPool == null ||
-            currentPool.Length == 0)
+        if (
+            currentPool == null ||
+            currentPool.Length == 0
+        )
         {
             return;
         }
 
-        // 👉 สุ่มตำแหน่ง
+        // 👉 random spawn point
         Transform point =
             itemSpawnPoints[
                 Random.Range(
@@ -311,7 +409,7 @@ public class PatternSpawner : MonoBehaviour
                 )
             ];
 
-        // 👉 สุ่ม item ตาม weight
+        // 👉 random item
         GameObject randomItem =
             GetRandomItem(currentPool);
 
@@ -338,7 +436,10 @@ public class PatternSpawner : MonoBehaviour
         }
 
         int random =
-            Random.Range(0, totalWeight);
+            Random.Range(
+                0,
+                totalWeight
+            );
 
         int current = 0;
 

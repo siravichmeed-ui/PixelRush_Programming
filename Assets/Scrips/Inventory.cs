@@ -87,8 +87,6 @@ public class Inventory : MonoBehaviour
 
         if (player != null)
         {
-            player.PlayAttack();
-
             switch (item.itemType)
             {
                 // ================= DAMAGE =================
@@ -96,20 +94,9 @@ public class Inventory : MonoBehaviour
 
                     Debug.Log("USE DAMAGE ITEM");
 
-                    player.PlayAttack();
-
-                    if (Boss.Instance != null)
-                    {
-                        Debug.Log("BOSS FOUND");
-
-                        Boss.Instance.TakeDamage(
-                            item.damage
-                        );
-                    }
-                    else
-                    {
-                        Debug.Log("BOSS NULL");
-                    }
+                    player.UseDamageItem(
+                        item.damage
+                    );
 
                     break;
 

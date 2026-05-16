@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1734303371791237332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4665047543944307382}
+  m_Layer: 7
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4665047543944307382
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1734303371791237332}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.274, y: 0.689, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1367431902391914703}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4316225810605439616
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,6 +97,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6685880861801897887}
+  - {fileID: 4665047543944307382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9187081323280499295
@@ -225,14 +257,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ebdc24d693005142a0d5c4ed2ff53d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  heartUI: {fileID: 0}
+  gameOverUI: {fileID: 0}
+  buffUI: {fileID: 0}
   rb: {fileID: 2886992721331528388}
   anim: {fileID: 1025186042568836454}
   col: {fileID: 3420388218531419965}
   sr: {fileID: 9187081323280499295}
+  fireballPrefab: {fileID: 2817675922574637771, guid: 638701cfee376454ca3cea856e93eb31, type: 3}
+  firePoint: {fileID: 4665047543944307382}
+  healEffect: {fileID: 0}
+  speedEffect: {fileID: 0}
+  immortalEffect: {fileID: 0}
   feetPos: {fileID: 6685880861801897887}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   groundDistance: 0.1
   jumpForce: 20
   maxJumpCount: 2
