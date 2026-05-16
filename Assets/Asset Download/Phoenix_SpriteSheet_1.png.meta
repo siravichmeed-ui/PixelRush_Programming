@@ -1,0 +1,765 @@
+fileFormatVersion: 2
+guid: 7e61a461f82679d41b2a0c83bec5c439
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4136044363442980424
+    second: Phoenix_SpriteSheet_1_0
+  - first:
+      213: -574904839292944028
+    second: Phoenix_SpriteSheet_1_1
+  - first:
+      213: -5073379685907739037
+    second: Phoenix_SpriteSheet_1_2
+  - first:
+      213: 351873344406182646
+    second: Phoenix_SpriteSheet_1_3
+  - first:
+      213: -4840455501028658906
+    second: Phoenix_SpriteSheet_1_4
+  - first:
+      213: 5307600947222716403
+    second: Phoenix_SpriteSheet_1_5
+  - first:
+      213: -4509907194870187251
+    second: Phoenix_SpriteSheet_1_6
+  - first:
+      213: 2440986505590166063
+    second: Phoenix_SpriteSheet_1_7
+  - first:
+      213: -2627766511922711542
+    second: Phoenix_SpriteSheet_1_8
+  - first:
+      213: 3191619709197615482
+    second: Phoenix_SpriteSheet_1_9
+  - first:
+      213: -7766099125207551586
+    second: Phoenix_SpriteSheet_1_10
+  - first:
+      213: -2671585319688743492
+    second: Phoenix_SpriteSheet_1_11
+  - first:
+      213: 7355827474410938953
+    second: Phoenix_SpriteSheet_1_12
+  - first:
+      213: -560105523033216535
+    second: Phoenix_SpriteSheet_1_13
+  - first:
+      213: -6339007439235315094
+    second: Phoenix_SpriteSheet_1_14
+  - first:
+      213: -8011724863035600644
+    second: Phoenix_SpriteSheet_1_15
+  - first:
+      213: 4527416722336512514
+    second: Phoenix_SpriteSheet_1_16
+  - first:
+      213: -4652900835987721475
+    second: Phoenix_SpriteSheet_1_17
+  - first:
+      213: -9102949929436722824
+    second: Phoenix_SpriteSheet_1_18
+  - first:
+      213: 1307655059170983187
+    second: Phoenix_SpriteSheet_1_19
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 98
+        width: 32
+        height: 30
+      alignment: 9
+      pivot: {x: 0.51922345, y: 0.009798527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84686425f6e266930800000000000000
+      internalID: 4136044363442980424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_1
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 107
+        width: 15
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4618a4a38178508f0800000000000000
+      internalID: -574904839292944028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_2
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 107
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36e49ca3e0cb799b0800000000000000
+      internalID: -5073379685907739037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 63
+        width: 26
+        height: 34
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fa524341fa12e400800000000000000
+      internalID: 351873344406182646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 69
+        width: 25
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 621f91e1e5f33dcb0800000000000000
+      internalID: -4840455501028658906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_5
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 77
+        width: 25
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ff9cbcc0f268a940800000000000000
+      internalID: 5307600947222716403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_6
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 83
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0bb8cffc479961c0800000000000000
+      internalID: -4509907194870187251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_7
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 87
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f22593f3b4020e120800000000000000
+      internalID: 2440986505590166063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_8
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 75
+        width: 27
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a04fd28a74c488bd0800000000000000
+      internalID: -2627766511922711542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_9
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 75
+        width: 18
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a710cd03739ea4c20800000000000000
+      internalID: 3191619709197615482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_10
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 63
+        width: 17
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e91388ffdf5493490800000000000000
+      internalID: -7766099125207551586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_11
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 63
+        width: 19
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb5ddc07e4f9cead0800000000000000
+      internalID: -2671585319688743492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_12
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 31
+        width: 28
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 942a2597d16251660800000000000000
+      internalID: 7355827474410938953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_13
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 31
+        width: 31
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e9eede8efa1a38f0800000000000000
+      internalID: -560105523033216535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_14
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 31
+        width: 36
+        height: 40
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6a02dbc1525708a0800000000000000
+      internalID: -6339007439235315094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_15
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 31
+        width: 28
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf0199c5fa2a0d090800000000000000
+      internalID: -8011724863035600644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_16
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 31
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20af70d858d94de30800000000000000
+      internalID: 4527416722336512514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_17
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 43
+        width: 25
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df275df77539d6fb0800000000000000
+      internalID: -4652900835987721475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_18
+      rect:
+        serializedVersion: 2
+        x: 248
+        y: 43
+        width: 26
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 879c1c7c443dba180800000000000000
+      internalID: -9102949929436722824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_19
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 31
+        width: 27
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31df0aa1959b52210800000000000000
+      internalID: 1307655059170983187
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_20
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 98
+        width: 32
+        height: 30
+      alignment: 9
+      pivot: {x: 0.51922345, y: 0.009798527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 91a8f68fbe61bcb4a8a480688098c5a7
+      internalID: 116087076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_21
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 98
+        width: 32
+        height: 30
+      alignment: 9
+      pivot: {x: 0.51922345, y: 0.009798527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c21039e1d7273a4cad551d250fd4dfc
+      internalID: 885931510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_22
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 98
+        width: 32
+        height: 30
+      alignment: 9
+      pivot: {x: 0.51922345, y: 0.009798527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1a975f77447a85f4dac5dbc8001b9cb6
+      internalID: 1814518680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_23
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 98
+        width: 32
+        height: 30
+      alignment: 9
+      pivot: {x: 0.51922345, y: 0.009798527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff6f70f1c00523f419a011eef755539a
+      internalID: 731949957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Phoenix_SpriteSheet_1_24
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.51922345, y: 0.009798527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 477f33eeda272dc47a9270850bae995a
+      internalID: 1152687322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: cb717e18353677644bc613cc0eff7973
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Phoenix_SpriteSheet_1_0: 4136044363442980424
+      Phoenix_SpriteSheet_1_1: -574904839292944028
+      Phoenix_SpriteSheet_1_10: -7766099125207551586
+      Phoenix_SpriteSheet_1_11: -2671585319688743492
+      Phoenix_SpriteSheet_1_12: 7355827474410938953
+      Phoenix_SpriteSheet_1_13: -560105523033216535
+      Phoenix_SpriteSheet_1_14: -6339007439235315094
+      Phoenix_SpriteSheet_1_15: -8011724863035600644
+      Phoenix_SpriteSheet_1_16: 4527416722336512514
+      Phoenix_SpriteSheet_1_17: -4652900835987721475
+      Phoenix_SpriteSheet_1_18: -9102949929436722824
+      Phoenix_SpriteSheet_1_19: 1307655059170983187
+      Phoenix_SpriteSheet_1_2: -5073379685907739037
+      Phoenix_SpriteSheet_1_20: 116087076
+      Phoenix_SpriteSheet_1_21: 885931510
+      Phoenix_SpriteSheet_1_22: 1814518680
+      Phoenix_SpriteSheet_1_23: 731949957
+      Phoenix_SpriteSheet_1_24: 1152687322
+      Phoenix_SpriteSheet_1_3: 351873344406182646
+      Phoenix_SpriteSheet_1_4: -4840455501028658906
+      Phoenix_SpriteSheet_1_5: 5307600947222716403
+      Phoenix_SpriteSheet_1_6: -4509907194870187251
+      Phoenix_SpriteSheet_1_7: 2440986505590166063
+      Phoenix_SpriteSheet_1_8: -2627766511922711542
+      Phoenix_SpriteSheet_1_9: 3191619709197615482
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

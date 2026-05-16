@@ -300,8 +300,7 @@ MonoBehaviour:
   maxAngle: 80
   angleOffset: 0
   maxHP: 10
-  bossUI: {fileID: 5859983877489996980, guid: 1019701a5508db847a4f074fb2894efd, type: 3}
-  anim: {fileID: 0}
+  anim: {fileID: 6067751826294370741}
   sr: {fileID: 0}
   destroyDelay: 1.5
 --- !u!61 &-3709891487605045233

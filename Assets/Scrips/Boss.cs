@@ -39,15 +39,13 @@ public class Boss : MonoBehaviour
     [Header("HP")]
     [SerializeField] private int maxHP = 10;
 
-    [SerializeField] private BossUI bossUI;
-
     // ================= EFFECT =================
     [Header("Effect")]
     [SerializeField] private Animator anim;
 
     [SerializeField] private SpriteRenderer sr;
 
-    [SerializeField] private float destroyDelay = 1.5f;
+    [SerializeField] private float destroyDelay = 3f;
 
     // ================= STATE =================
     private int currentHP;
@@ -82,11 +80,6 @@ public class Boss : MonoBehaviour
 
         attackCooldown = 2f;
 
-        if (bossUI != null)
-        {
-            bossUI.Show(maxHP);
-        }
-
         FindPlayer();
     }
 
@@ -109,6 +102,9 @@ public class Boss : MonoBehaviour
 
     void LateUpdate()
     {
+        if (isDead)
+            return;
+
         AimShootPos();
     }
 
@@ -196,6 +192,7 @@ public class Boss : MonoBehaviour
     public void ShootArm()
     {
         if (
+            isDead ||
             isArmOut ||
             shootPos == null ||
             armPrefab == null
@@ -234,7 +231,10 @@ public class Boss : MonoBehaviour
     {
         isArmOut = false;
 
-        if (armObject != null)
+        if (
+            armObject != null &&
+            !isDead
+        )
         {
             armObject.SetActive(true);
         }
@@ -295,14 +295,6 @@ public class Boss : MonoBehaviour
             currentHP
         );
 
-        // 👉 update hp bar
-        if (bossUI != null)
-        {
-            bossUI.UpdateHP(
-                currentHP
-            );
-        }
-
         // 👉 hit animation
         if (anim != null)
         {
@@ -338,23 +330,32 @@ public class Boss : MonoBehaviour
     // ================= DIE =================
     void Die()
     {
+        if (isDead)
+            return;
+
         isDead = true;
 
         Debug.Log("Boss Dead");
 
-        // 👉 hide hp bar
-        if (bossUI != null)
+        // 👉 ปิด arm
+        if (armObject != null)
         {
-            bossUI.Hide();
+            armObject.SetActive(false);
         }
 
-        // 👉 animation
+        // 👉 หยุด animation attack
+        if (armAnim != null)
+        {
+            armAnim.enabled = false;
+        }
+
+        // 👉 เล่น animation ตาย
         if (anim != null)
         {
             anim.SetTrigger("die");
         }
 
-        // 👉 game clear
+        // 👉 เข้า endless
         if (GameManager.Instance != null)
         {
             GameManager.Instance
