@@ -60,7 +60,8 @@ public class EnemyThrower : MonoBehaviour
 
             // 👉 random force
             float randomX =
-                Random.Range(1f, 3f);
+                //Random.Range(1f, 3f);
+                Random.Range(-20f, -20f);
 
             float randomY =
                 Random.Range(4f, 7f);
