@@ -963,6 +963,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   popupUI: {fileID: 298260520}
+  howToPlayPanel: {fileID: 0}
+  waitTime: 5
+  fadeDuration: 1
 --- !u!1 &357972363
 GameObject:
   m_ObjectHideFlags: 0
@@ -1625,6 +1628,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   popupUI: {fileID: 548201092}
+  howToPlayPanel: {fileID: 0}
+  waitTime: 5
+  fadeDuration: 1
 --- !u!1 &677446891
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,6 +2201,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   popupUI: {fileID: 0}
+  howToPlayPanel: {fileID: 0}
+  waitTime: 5
+  fadeDuration: 1
 --- !u!4 &828837103
 Transform:
   m_ObjectHideFlags: 0
