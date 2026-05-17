@@ -3,11 +3,17 @@ using UnityEngine.UI;
 
 public class BossUI : MonoBehaviour
 {
-    [SerializeField]
-    private Slider slider;
+    public static BossUI Instance;
 
-    void Start()
+    [SerializeField]
+    private Image fillImage;
+
+    private int maxHP;
+
+    void Awake()
     {
+        Instance = this;
+
         gameObject.SetActive(false);
     }
 
@@ -15,14 +21,18 @@ public class BossUI : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        slider.maxValue = hp;
+        maxHP = hp;
 
-        slider.value = hp;
+        fillImage.fillAmount = 1f;
     }
 
     public void UpdateHP(int hp)
     {
-        slider.value = hp;
+        float percent =
+            (float)hp / maxHP;
+
+        fillImage.fillAmount =
+            percent;
     }
 
     public void Hide()

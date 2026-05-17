@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyThrower
   rockPrefab: {fileID: 7559599449268417281, guid: 6cc88541ccfb4f449b826e6cbfd0afee, type: 3}
-  throwPoint: {fileID: 0}
-  throwCooldown: 1.5
+  throwPoint: {fileID: 5039239166354193511}
+  throwCooldown: 1
   throwForce: {x: 2, y: 5}
   speedMultiplier: 0.3
 --- !u!95 &3140442517041807432

@@ -47,6 +47,9 @@ public class Boss : MonoBehaviour
 
     [SerializeField] private float destroyDelay = 3f;
 
+    // ================= UI =================
+    private BossUI bossUI;
+
     // ================= STATE =================
     private int currentHP;
 
@@ -57,6 +60,8 @@ public class Boss : MonoBehaviour
     private bool isArmOut = false;
 
     private bool isDead = false;
+
+    private Coroutine flashCoroutine;
 
     // ================= UNITY =================
     void Awake()
@@ -79,6 +84,21 @@ public class Boss : MonoBehaviour
         isArmOut = false;
 
         attackCooldown = 2f;
+
+        // 👉 reset color
+        if (sr != null)
+        {
+            sr.color = Color.white;
+        }
+
+        // 👉 get boss ui
+        bossUI = BossUI.Instance;
+
+        // 👉 show hp ui
+        if (bossUI != null)
+        {
+            bossUI.Show(maxHP);
+        }
 
         FindPlayer();
     }
@@ -295,16 +315,30 @@ public class Boss : MonoBehaviour
             currentHP
         );
 
+        // 👉 update hp ui
+        if (bossUI != null)
+        {
+            bossUI.UpdateHP(currentHP);
+        }
+
         // 👉 hit animation
         if (anim != null)
         {
             anim.SetTrigger("hit");
         }
 
-        // 👉 hit flash
-        StartCoroutine(
-            HitFlash()
-        );
+        // 👉 flash effect
+        if (flashCoroutine != null)
+        {
+            StopCoroutine(
+                flashCoroutine
+            );
+        }
+
+        flashCoroutine =
+            StartCoroutine(
+                HitFlash()
+            );
 
         // 👉 die
         if (currentHP <= 0)
@@ -313,16 +347,34 @@ public class Boss : MonoBehaviour
         }
     }
 
+    // ================= HIT FLASH =================
     IEnumerator HitFlash()
     {
         if (sr == null)
             yield break;
 
-        sr.color = Color.red;
+        Color hitColor =
+            new Color(
+                1f,
+                0.3f,
+                0.3f
+            );
 
-        yield return new WaitForSeconds(
-            0.1f
-        );
+        // 👉 flash 3 รอบ
+        for (int i = 0; i < 3; i++)
+        {
+            sr.color = hitColor;
+
+            yield return new WaitForSeconds(
+                0.08f
+            );
+
+            sr.color = Color.white;
+
+            yield return new WaitForSeconds(
+                0.08f
+            );
+        }
 
         sr.color = Color.white;
     }
@@ -336,6 +388,26 @@ public class Boss : MonoBehaviour
         isDead = true;
 
         Debug.Log("Boss Dead");
+
+        // 👉 hide hp ui
+        if (bossUI != null)
+        {
+            bossUI.Hide();
+        }
+
+        // 👉 stop flash
+        if (flashCoroutine != null)
+        {
+            StopCoroutine(
+                flashCoroutine
+            );
+        }
+
+        // 👉 reset color
+        if (sr != null)
+        {
+            sr.color = Color.white;
+        }
 
         // 👉 ปิด arm
         if (armObject != null)

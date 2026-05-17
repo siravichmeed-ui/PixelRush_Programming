@@ -17,6 +17,6 @@ MonoBehaviour:
   itemType: 1
   damage: 1
   healAmount: 1
-  speedMultiplier: 6.69
+  speedMultiplier: 2
   speedDuration: 5
   immortalDuration: 5

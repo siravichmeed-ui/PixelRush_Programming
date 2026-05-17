@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4698647428191064957}
   - component: {fileID: 2510185746899037699}
   - component: {fileID: 4823270595634100822}
-  - component: {fileID: 4703591576376158147}
   - component: {fileID: 658385194545139552}
+  - component: {fileID: 8326927098329622159}
   m_Layer: 0
   m_Name: Rock1_0
   m_TagString: Untagged
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7559599449268417281}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.70559335, w: 0.70861703}
   m_LocalPosition: {x: 13.69, y: -0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 89.755}
 --- !u!212 &2510185746899037699
 SpriteRenderer:
   serializedVersion: 2
@@ -109,7 +109,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -121,8 +121,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &4703591576376158147
-CircleCollider2D:
+--- !u!114 &658385194545139552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7559599449268417281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7038985a08180124faee18ef8a85da0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RockProjectile
+  damage: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  lifeTime: 5
+--- !u!70 &8326927098329622159
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -151,26 +168,10 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.34375
---- !u!114 &658385194545139552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7559599449268417281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7038985a08180124faee18ef8a85da0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RockProjectile
-  damage: 1
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  lifeTime: 5
+  m_Offset: {x: -0.000038445, y: -0.003028482}
+  m_Size: {x: 0.6819268, y: 0.382025}
+  m_Direction: 1
