@@ -3,6 +3,13 @@ using System.Collections;
 
 public class PatternSpawner : MonoBehaviour
 {
+    [Header("Music")]
+    [SerializeField] private AudioSource musicSource;
+
+    [SerializeField] private AudioClip normalMusic;
+
+    [SerializeField] private AudioClip bossMusic;
+
     // ================= NORMAL PATTERN =================
     [Header("Pattern")]
     public PatternData[] easy;
@@ -71,6 +78,23 @@ public class PatternSpawner : MonoBehaviour
         StartCoroutine(SpawnLoop());
 
         StartCoroutine(ItemLoop());
+    }
+
+    public void PlayNormalMusic()
+    {
+        PlayLoopMusic(normalMusic);
+    }
+
+    void PlayLoopMusic(AudioClip clip)
+    {
+        if (musicSource == null || clip == null)
+            return;
+
+        musicSource.clip = clip;
+
+        musicSource.loop = true;
+
+        musicSource.Play();
     }
 
     // ================= MAIN LOOP =================
@@ -366,6 +390,7 @@ public class PatternSpawner : MonoBehaviour
         );
 
         GameManager.Instance.EnterBossPhase();
+        PlayLoopMusic(bossMusic);
 
         Debug.Log("Boss Spawn");
     }

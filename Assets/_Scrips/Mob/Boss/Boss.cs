@@ -432,6 +432,14 @@ public class Boss : MonoBehaviour
         {
             GameManager.Instance
                 .BossDefeated();
+
+            PatternSpawner spawner =
+            Object.FindFirstObjectByType<PatternSpawner>();
+
+            if (spawner != null)
+            {
+                spawner.PlayNormalMusic();
+            }
         }
 
         StartCoroutine(
