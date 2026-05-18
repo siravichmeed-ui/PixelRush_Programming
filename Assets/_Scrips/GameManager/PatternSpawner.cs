@@ -28,6 +28,14 @@ public class PatternSpawner : MonoBehaviour
     [Header("Endless Setting")]
     public float endlessDelay = 5f;
 
+    // ================= ENDLESS SCALING =================
+    [Header("Endless Scaling")]
+    public float minSpawnDelay = 0.15f;
+
+    public float endlessSpawnRate = 0.003f;
+
+    public float extraSpawnChance = 0.002f;
+
     // ================= ITEM =================
     [Header("Normal Item")]
     public ItemSpawnData[] normalItems;
@@ -124,7 +132,29 @@ public class PatternSpawner : MonoBehaviour
                 );
             }
 
-            yield return new WaitForSeconds(1f);
+            // ================= SPAWN SPEED =================
+            float delay = 1f;
+
+            // 👉 endless ยิ่งไกลยิ่งไว
+            if (GameManager.Instance.isEndlessPhase)
+            {
+                float endlessDistance =
+                    distance - bossDistance;
+
+                delay -=
+                    endlessDistance *
+                    endlessSpawnRate;
+
+                // 👉 กัน delay ติดลบ
+                delay = Mathf.Max(
+                    minSpawnDelay,
+                    delay
+                );
+            }
+
+            yield return new WaitForSeconds(
+                delay
+            );
         }
     }
 
@@ -196,10 +226,27 @@ public class PatternSpawner : MonoBehaviour
     {
         foreach (var rule in pattern.spawnRules)
         {
-            if (
-                Random.value >
-                rule.spawnChance
-            )
+            float spawnChance =
+                rule.spawnChance;
+
+            // ================= ENDLESS =================
+            if (GameManager.Instance.isEndlessPhase)
+            {
+                float endlessDistance =
+                    distance - bossDistance;
+
+                // 👉 ยิ่งไกลยิ่ง spawn เยอะ
+                spawnChance +=
+                    endlessDistance *
+                    extraSpawnChance;
+
+                spawnChance =
+                    Mathf.Clamp01(
+                        spawnChance
+                    );
+            }
+
+            if (Random.value > spawnChance)
             {
                 continue;
             }

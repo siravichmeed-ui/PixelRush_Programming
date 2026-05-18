@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Speed
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Immortal
-  icon: {fileID: 8911327510187845669, guid: 738a61680f37b1e43bef569bd6d051be, type: 3}
+  icon: {fileID: 1673454645380224480, guid: d315a8337c8b76941b9812555c35b8ed, type: 3}
   itemType: 1
   damage: 1
   healAmount: 1

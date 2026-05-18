@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private SpriteRenderer sr;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
     // ================= DAMAGE SKILL =================
     [Header("Damage Skill")]
     [SerializeField]
@@ -30,6 +33,20 @@ public class PlayerController : MonoBehaviour
     private Transform firePoint;
 
     private int pendingDamage = 0;
+
+    // ================= ITEM SOUND =================
+    [Header("Item Sound")]
+    [SerializeField]
+    private AudioClip healSFX;
+
+    [SerializeField]
+    private AudioClip speedSFX;
+
+    [SerializeField]
+    private AudioClip immortalSFX;
+
+    [SerializeField]
+    private AudioClip fireballSFX;
 
     // ================= EFFECT =================
     [Header("Effects")]
@@ -315,6 +332,8 @@ public class PlayerController : MonoBehaviour
             heartUI.UpdateHearts(currentHP);
         }
 
+        PlaySFX(healSFX);
+
         StartCoroutine(
             ShowHealEffect()
         );
@@ -355,6 +374,8 @@ public class PlayerController : MonoBehaviour
                 );
 
             Debug.Log("Speed Boost ON");
+
+            PlaySFX(speedSFX);
         }
 
         if (speedEffect != null)
@@ -410,6 +431,8 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(
                     ImmortalRoutine()
                 );
+
+            PlaySFX(immortalSFX);
         }
     }
 
@@ -494,6 +517,8 @@ public class PlayerController : MonoBehaviour
     {
         pendingDamage = dmg;
 
+        PlaySFX(fireballSFX);
+
         anim.SetTrigger("attack");
     }
 
@@ -534,6 +559,20 @@ public class PlayerController : MonoBehaviour
                 pendingDamage
             );
         }
+    }
+
+    // ================= PLAY SFX =================
+    void PlaySFX(AudioClip clip)
+    {
+        if (
+            audioSource == null ||
+            clip == null
+        )
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip);
     }
 
     // ================= DEBUG =================
