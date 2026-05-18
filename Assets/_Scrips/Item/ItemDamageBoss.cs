@@ -9,6 +9,23 @@ public class ItemDamageBoss : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
+        if (itemData.itemType == ItemType.Damage)
+        {
+            PlayerController player =
+                other.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                player.UseDamageItem(
+                    itemData.damage
+                );
+            }
+
+            gameObject.SetActive(false);
+
+            return;
+        }
+
         bool success =
             Inventory.Instance.Pickup(itemData);
 
