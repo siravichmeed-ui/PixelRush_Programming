@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
 
     private int pendingDamage = 0;
 
-
     // ================= EFFECT =================
     [Header("Effects")]
     [SerializeField] private GameObject healEffect;
@@ -111,17 +110,27 @@ public class PlayerController : MonoBehaviour
     // ================= ITEM SOUND =================
     [Header("Item Sound")]
 
-    [SerializeField] private AudioClip healSFX;
+    [SerializeField]
+    private AudioClip healSFX;
 
-    [SerializeField] private AudioClip speedSFX;
+    [SerializeField]
+    private AudioClip speedSFX;
 
-    [SerializeField] private AudioClip immortalSFX;
+    [SerializeField]
+    private AudioClip immortalSFX;
 
-    [SerializeField] private AudioClip fireballSFX;
+    [SerializeField]
+    private AudioClip fireballSFX;
 
-    [SerializeField] private AudioClip jumpSFX;
+    [SerializeField]
+    private AudioClip jumpSFX;
 
-    [SerializeField] private AudioClip hitSFX;
+    [SerializeField]
+    private AudioClip hitSFX;
+
+    [SerializeField]
+    private AudioClip crouchSFX;
+
     void Start()
     {
         currentHP = maxHP;
@@ -174,14 +183,23 @@ public class PlayerController : MonoBehaviour
     }
 
     // ================= PLAY SFX =================
-    void PlaySFX(AudioClip clip, float volume = 1f)
+    void PlaySFX(
+        AudioClip clip,
+        float volume = 1f
+    )
     {
-        if (audioSource == null || clip == null)
+        if (
+            audioSource == null ||
+            clip == null
+        )
         {
             return;
         }
 
-        audioSource.PlayOneShot(clip, volume);
+        audioSource.PlayOneShot(
+            clip,
+            volume
+        );
     }
 
     // ================= INVENTORY =================
@@ -238,7 +256,7 @@ public class PlayerController : MonoBehaviour
             {
                 jumpCount++;
 
-                PlaySFX(jumpSFX,0.4f);
+                PlaySFX(jumpSFX, 0.4f);
 
                 rb.linearVelocity =
                     new Vector2(
@@ -257,6 +275,7 @@ public class PlayerController : MonoBehaviour
     // ================= CROUCH =================
     void HandleCrouch()
     {
+        // 👉 กดหมอบ
         if (
             isGrounded &&
             Keyboard.current.leftCtrlKey
@@ -268,11 +287,26 @@ public class PlayerController : MonoBehaviour
                 true
             );
 
+            // 👉 เล่นเสียง loop
+            if (
+                audioSource != null &&
+                crouchSFX != null
+            )
+            {
+                audioSource.clip =
+                    crouchSFX;
+
+                audioSource.loop = true;
+
+                audioSource.Play();
+            }
+
             col.size = crouchSize;
 
             col.offset = crouchOffset;
         }
 
+        // 👉 ปล่อยหมอบ
         if (
             Keyboard.current.leftCtrlKey
             .wasReleasedThisFrame
@@ -282,6 +316,20 @@ public class PlayerController : MonoBehaviour
                 "isCrouching",
                 false
             );
+
+            // 👉 หยุดเสียง
+            if (
+                audioSource != null &&
+                audioSource.clip ==
+                crouchSFX
+            )
+            {
+                audioSource.Stop();
+
+                audioSource.loop = false;
+
+                audioSource.clip = null;
+            }
 
             col.size = standSize;
 
@@ -312,7 +360,7 @@ public class PlayerController : MonoBehaviour
 
         anim.SetTrigger("hit");
 
-        PlaySFX(hitSFX,1.5f);
+        PlaySFX(hitSFX, 1.5f);
 
         if (currentHP <= 0)
         {
@@ -369,9 +417,9 @@ public class PlayerController : MonoBehaviour
 
     // ================= SPEED BOOST =================
     public void SpeedBoost(
-     float multiplier,
-     float duration
- )
+        float multiplier,
+        float duration
+    )
     {
         speedBoostTimer += duration;
 
@@ -556,8 +604,10 @@ public class PlayerController : MonoBehaviour
         Collider2D playerCol =
             GetComponent<Collider2D>();
 
-        if (fireballCol != null &&
-            playerCol != null)
+        if (
+            fireballCol != null &&
+            playerCol != null
+        )
         {
             Physics2D.IgnoreCollision(
                 fireballCol,

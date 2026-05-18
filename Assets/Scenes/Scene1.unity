@@ -5981,7 +5981,7 @@ RectTransform:
   m_GameObject: {fileID: 974624503}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.5239499, y: 0.6699219, z: 1}
+  m_LocalScale: {x: 3.5239499, y: 0.720166, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2029844692}
@@ -9884,7 +9884,7 @@ RectTransform:
   m_GameObject: {fileID: 1569807275}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.5239499, y: 0.6699219, z: 1}
+  m_LocalScale: {x: 3.5239499, y: 0.7536621, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2034250199}
@@ -9894,7 +9894,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 251.193, y: -14}
+  m_AnchoredPosition: {x: 251.193, y: -16}
   m_SizeDelta: {x: 186.376, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1569807277
@@ -12704,7 +12704,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -12841,7 +12841,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
   m_sharedMaterial: {fileID: 1260715531048141648, guid: 9a14a8a1184c5f14fbce3338ea4d7a35, type: 2}
@@ -15238,6 +15238,10 @@ PrefabInstance:
       propertyPath: speedSFX
       value: 
       objectReference: {fileID: 8300000, guid: 8974250c3f5963a498ade00d4cd43e10, type: 3}
+    - target: {fileID: 1889430644437660076, guid: c051ffd28e07ac64ab5d895e71f738aa, type: 3}
+      propertyPath: crouchSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: de480ddf33ac3f549b09fc614a4b3364, type: 3}
     - target: {fileID: 1889430644437660076, guid: c051ffd28e07ac64ab5d895e71f738aa, type: 3}
       propertyPath: gameOverUI
       value: 
