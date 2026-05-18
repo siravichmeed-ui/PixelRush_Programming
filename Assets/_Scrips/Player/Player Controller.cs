@@ -34,19 +34,6 @@ public class PlayerController : MonoBehaviour
 
     private int pendingDamage = 0;
 
-    // ================= ITEM SOUND =================
-    [Header("Item Sound")]
-    [SerializeField]
-    private AudioClip healSFX;
-
-    [SerializeField]
-    private AudioClip speedSFX;
-
-    [SerializeField]
-    private AudioClip immortalSFX;
-
-    [SerializeField]
-    private AudioClip fireballSFX;
 
     // ================= EFFECT =================
     [Header("Effects")]
@@ -121,6 +108,20 @@ public class PlayerController : MonoBehaviour
 
     private int jumpCount;
 
+    // ================= ITEM SOUND =================
+    [Header("Item Sound")]
+
+    [SerializeField] private AudioClip healSFX;
+
+    [SerializeField] private AudioClip speedSFX;
+
+    [SerializeField] private AudioClip immortalSFX;
+
+    [SerializeField] private AudioClip fireballSFX;
+
+    [SerializeField] private AudioClip jumpSFX;
+
+    [SerializeField] private AudioClip hitSFX;
     void Start()
     {
         currentHP = maxHP;
@@ -170,6 +171,17 @@ public class PlayerController : MonoBehaviour
         HandleInventoryInput();
 
         UpdateAnimation();
+    }
+
+    // ================= PLAY SFX =================
+    void PlaySFX(AudioClip clip, float volume = 1f)
+    {
+        if (audioSource == null || clip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip, volume);
     }
 
     // ================= INVENTORY =================
@@ -225,6 +237,8 @@ public class PlayerController : MonoBehaviour
             if (jumpCount < maxJumpCount)
             {
                 jumpCount++;
+
+                PlaySFX(jumpSFX,0.4f);
 
                 rb.linearVelocity =
                     new Vector2(
@@ -297,6 +311,8 @@ public class PlayerController : MonoBehaviour
         }
 
         anim.SetTrigger("hit");
+
+        PlaySFX(hitSFX,1.5f);
 
         if (currentHP <= 0)
         {
@@ -559,20 +575,6 @@ public class PlayerController : MonoBehaviour
                 pendingDamage
             );
         }
-    }
-
-    // ================= PLAY SFX =================
-    void PlaySFX(AudioClip clip)
-    {
-        if (
-            audioSource == null ||
-            clip == null
-        )
-        {
-            return;
-        }
-
-        audioSource.PlayOneShot(clip);
     }
 
     // ================= DEBUG =================

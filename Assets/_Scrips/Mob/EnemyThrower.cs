@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class EnemyThrower : MonoBehaviour
 {
+    private SpriteRenderer sr;
+    private float timer;
+
     [Header("Throw")]
     [SerializeField] private GameObject rockPrefab;
 
@@ -10,15 +13,21 @@ public class EnemyThrower : MonoBehaviour
     [SerializeField] private float throwCooldown = 2f;
 
     [Header("Throw Force")]
-    [SerializeField]
-    private Vector2 throwForce =
-        new Vector2(2f, 5f);
+    [SerializeField] private Vector2 throwForce = new Vector2(2f, 5f);
 
     [Header("Speed Sync")]
-    [SerializeField]
-    private float speedMultiplier = 0.3f;
+    [SerializeField] private float speedMultiplier = 0.3f;
 
-    private float timer;
+    // Sound
+    [Header("SFX")]
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip throwSFX;
+
+    void Start()
+    {
+        sr = GetComponent<SpriteRenderer>();
+    }
 
     void Update()
     {
@@ -40,6 +49,11 @@ public class EnemyThrower : MonoBehaviour
             return;
         }
 
+        if (sr != null && sr.isVisible)
+        {
+            PlaySFX(throwSFX, 0.8f);
+        }
+
         GameObject rock =
             ObjectPool.Instance.Spawn(
                 rockPrefab,
@@ -58,15 +72,11 @@ public class EnemyThrower : MonoBehaviour
 
             rb.angularVelocity = 0f;
 
-            // 👉 random force
-            float randomX =
-                //Random.Range(1f, 3f);
-                Random.Range(-20f, -20f);
+            float randomX = Random.Range(-20f, -20f);
 
-            float randomY =
-                Random.Range(4f, 7f);
+            float randomY = Random.Range(4f, 7f);
 
-            // 👉 sync กับ game speed
+            // sync กับ game speed
             float extraSpeed =
                 GameManager.Instance.speed *
                 speedMultiplier;
@@ -86,5 +96,15 @@ public class EnemyThrower : MonoBehaviour
             rb.angularVelocity =
                 Random.Range(-200f, 200f);
         }
+    }
+
+    void PlaySFX(AudioClip clip, float volume = 1f)
+    {
+        if (audioSource == null || clip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip, volume);
     }
 }

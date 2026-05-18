@@ -4,13 +4,17 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
 
-    [SerializeField]
-    private ItemData[] items =
-        new ItemData[3];
+    [SerializeField] private ItemData[] items = new ItemData[3];
 
     private int selectedIndex = 0;
 
     private PlayerController player;
+
+    // ================= SOUND =================
+
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip pickupSFX;
 
     void Awake()
     {
@@ -49,6 +53,8 @@ public class Inventory : MonoBehaviour
             if (items[i] == null)
             {
                 items[i] = item;
+
+                PlaySFX(pickupSFX, 1.2f);
 
                 Debug.Log(
                     "Pickup : " + item.itemName
@@ -129,10 +135,20 @@ public class Inventory : MonoBehaviour
                     break;
             }
         }
-
-        // 👉 ลบ item หลังใช้
+        // ลบ item หลังใช้
         items[selectedIndex] = null;
 
         Debug.Log("Use Item");
+    }
+
+    // ================= SOUND ================
+    public void PlaySFX(AudioClip clip, float volume = 1f)
+    {
+        if (audioSource == null || clip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip, volume);
     }
 }

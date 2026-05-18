@@ -85,18 +85,6 @@ public class PatternSpawner : MonoBehaviour
         PlayLoopMusic(normalMusic);
     }
 
-    void PlayLoopMusic(AudioClip clip)
-    {
-        if (musicSource == null || clip == null)
-            return;
-
-        musicSource.clip = clip;
-
-        musicSource.loop = true;
-
-        musicSource.Play();
-    }
-
     // ================= MAIN LOOP =================
     IEnumerator SpawnLoop()
     {
@@ -390,7 +378,7 @@ public class PatternSpawner : MonoBehaviour
         );
 
         GameManager.Instance.EnterBossPhase();
-        PlayLoopMusic(bossMusic);
+        PlayLoopMusic(bossMusic, 0.5f);
 
         Debug.Log("Boss Spawn");
     }
@@ -526,5 +514,18 @@ public class PatternSpawner : MonoBehaviour
         }
 
         return null;
+    }
+
+    // ================= SOUND =================
+    void PlayLoopMusic(AudioClip clip, float volume = 1f)
+    {
+        if (musicSource == null || clip == null)
+            return;
+
+        musicSource.clip = clip;
+
+        musicSource.loop = true;
+
+        musicSource.Play();
     }
 }

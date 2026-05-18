@@ -63,6 +63,15 @@ public class Boss : MonoBehaviour
 
     private Coroutine flashCoroutine;
 
+    // ================= SFX =================
+
+    [Header("SFX")]
+    [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private AudioClip attackSFX;
+
+    [SerializeField] private AudioClip hitSFX;
+
     // ================= UNITY =================
     void Awake()
     {
@@ -223,6 +232,8 @@ public class Boss : MonoBehaviour
 
         isArmOut = true;
 
+        PlaySFX(attackSFX, 0.5f);
+
         if (armObject != null)
         {
             armObject.SetActive(false);
@@ -325,6 +336,8 @@ public class Boss : MonoBehaviour
         if (anim != null)
         {
             anim.SetTrigger("hit");
+
+            PlaySFX(hitSFX, 0.7f);
         }
 
         // 👉 flash effect
@@ -456,9 +469,19 @@ public class Boss : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    // ================= DEBUG =================
     public bool IsDead()
     {
         return isDead;
+    }
+
+    // ================= SFX =================
+    public void PlaySFX(AudioClip clip, float volume = 1f)
+    {
+        if (audioSource == null || clip == null)
+        {
+            return;
+        }
+
+        audioSource.PlayOneShot(clip, volume);
     }
 }
